@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie</title>
+</head>
+<body>
+    Name: <input type="text" id="movie">
+    <button onclick="getMovieData()">Get Movie Data</button>
+    <div id="container"></div>
+</body>
+<script>
+    let container = document.getElementById('container')
+
+    async function getMovieData(){
+
+        var movie = document.getElementById('movie').value;
+
+        try{
+
+        let res = await fetch(`http://www.omdbapi.com/?t=${movie}&plot=full&apikey=ad2975f`)
+
+        let data = await res.json()
+
+        console.log('data:', data)
+
+        showMovieData(data)
+        }
+        catch(e) {
+            console.log('e:',e)
+        }
+    
+    }
+
+    function showMovieData(d){
+        
+
+    let title = document.createElement("p");
+    title.innerText = `Title-${d.Title}`;
+
+    let rated = document.createElement("p");
+    rated.innerText = `Rating-${d.Rated}`;
+
+    let released = document.createElement("p");
+    released.innerText = `Released-${d.Released}`;
+
+    let year = document.createElement("p");
+    year.innerText = `Year-${d.Year}`;
+
+    container.append(title, rated, released, year);
+    }
+
+</script>
+</html>
